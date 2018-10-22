@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     ppinf_outfile.open(ppinffname.str());
     pxi_outfile <<"{";
     ppinf_outfile <<"{";
-    
+     
 for (auto& lambda : lambda_vec){    
     if (!firstlambda){
         pxi_outfile <<",\n";
