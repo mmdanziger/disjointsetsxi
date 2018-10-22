@@ -29,7 +29,7 @@ struct node{
  node(int index, int L):x_rel(index%L),y_rel(index/L),containing_cluster_key(index){}
  //node(int index, int L):x_rel(0),y_rel(0),containing_cluster_key(index){}
 };
-
+ 
 struct cluster{
   double xcm=0,ycm=0;
   long m=0;
