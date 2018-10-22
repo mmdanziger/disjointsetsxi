@@ -32,7 +32,7 @@ void DSetXiSites::incrementalComponents(double to_p, int node_res)
     int s,node_count;
     node_count=0;
     while(node_count < to_node){
-        s = node_order[node_count];
+        s = node_order[node_count]; 
         added_yet[s]=true;
         link_targets(s);
         if( (found_giant && stop_at_giant)|| node_res < 2 || node_count%node_res==0){
