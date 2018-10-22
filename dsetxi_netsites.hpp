@@ -14,7 +14,7 @@ typedef std::pair<int,std::pair<int,int> > DistancePair;
 int randsign() { return rand() > (RAND_MAX/2 +1)? 1 : -1;}
 int randint(int N) { return rand()%N; }
 
-using std::endl;
+using std::endl; 
 using std::exception;
 using std::vector;
 
