@@ -32,7 +32,7 @@ for (auto& lambda : lambda_vec){
         double pc = dsX.find_pc_only();
      #pragma omp critical 
         {
-     #pragma omp flush(firsttrial)
+     #pragma omp flush(firsttrial) 
 
         if(!firsttrial){
             pinf_file <<",\n";
