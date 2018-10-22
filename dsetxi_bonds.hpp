@@ -49,7 +49,7 @@ void DSetXiBonds::make_NNN_lattice()
        }
        /* n.n. neighbor \
                          \         */
-       add_link_to_edge_list(i,(i+1)%N);
+       add_link_to_edge_list(i,(i+1)%N); 
     }
 }
 
