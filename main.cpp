@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
         po::notify(vm);
         ifstream ifs(config_file.c_str());
         if (ifs){
-            cout<<"Config file read ("<<config_file<<").\n";
+            cout<<"Config file read ("<<config_file<<").\n"; 
             po::store(po::parse_config_file(ifs,desc),vm);
             po::notify(vm);
         }
