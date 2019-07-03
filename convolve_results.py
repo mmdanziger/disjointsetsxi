@@ -43,22 +43,28 @@ if __name__ == "__main__":
     Qn_list_0 = []
     for fname in argv[1:]:
         try:
-            p,Qn =np.loadtxt(fname).T
-            Qn_list_0.append(Qn)
+            pQn =np.loadtxt(fname)
+            Qn_list_0.append(pQn)
+            p,Qn = pQn.T
         except:
             print("%s wrong format"%fname)
-    lengthcount = sorted(Counter(map(len,Qn_list_0)).items(),key=lambda x: x[1])
+    lengthcount = sorted(Counter(map(len,Qn_list_0)).items(),key=lambda x: x[1],reverse=True)
+    
+    print("Found files (filelength,no_of_files_of_length)")
+    print(lengthcount)
+    
     if len(lengthcount)>1:
-        Qn_list = list(filter(lambda x: len(x) == lengthcount[0]),Qn_list_0)
+        Qn_list = list(filter(lambda x: len(x) == lengthcount[0][0],Qn_list_0))
         print("Tossing %i files for insufficient data count"%(len(Qn_list_0)-len(Qn_list)))
     else:
         Qn_list = Qn_list_0
+    
     Qn_list = np.array(Qn_list)
-    print(Qn_list.shape)
-    Qn = Qn_list.mean(axis=0)
-    Qnstd = Qn_list.std(axis=0)
+    p=Qn_list[:,:,0].mean(axis=0)  
+    Qn=Qn_list[:,:,1].mean(axis=0)  
+    Qnstd = Qn_list[:,:,1].std(axis=0) 
     Qp=np.zeros_like(Qn)
-    print(Qn.shape)
+    
     with Pool(processes=cpu_count()) as pool:
         if hasbar:
             unordered_res =  list(tqdm.tqdm(pool.imap_unordered(Qp_reduced, p), total=len(Qp)))
@@ -69,5 +75,6 @@ if __name__ == "__main__":
             Qp = np.array(res.get())
         
     ofname = "conv_" + basename(argv[1])
-    np.savetxt(ofname,np.array([p,Qn,Qnstd,Qp]))
-    #np.savetxt(ofname, np.array(Qp))
+    oarray = np.array([p,Qn,Qnstd,Qp])
+    np.savetxt(ofname,oarray)
+   
