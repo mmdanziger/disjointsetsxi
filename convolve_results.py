@@ -41,22 +41,30 @@ def Qp_reduced(pQn_idx):
     conv_term = lambda n: binom.pmf(n,N,p[pQn_idx])
     keep_going=True
     Qp_out=0
-    Qp_out += conv_term(n)*Qn[pQn_idx]
-    i=0
+    norm_factor=0
+
+    conv_weight= conv_term(n)
+    norm_factor += conv_weight
+    Qp_out += conv_weight*Qn[pQn_idx]
+    i=1
     while keep_going:
         keep_going=False
         if n+i*step_size<N:
             fwd_term = conv_term(n+i*step_size)
             if fwd_term>zero_thresh:
                 keep_going=True
+                norm_factor+=fwd_term
                 Qp_out+=fwd_term*Qn[pQn_idx+i]
         if n-i*step_size>0:
             bwd_term = conv_term(n-i*step_size)
             if bwd_term > zero_thresh:
                 keep_going=True
+                norm_factor+=bwd_term
                 Qp_out += bwd_term*Qn[pQn_idx-i]
         i+=1
-    
+    if (norm_factor  > 1):
+        print("At %.6f norm factor summed to %.6f"%(p[pQn_idx],norm_factor))
+    Qp_out/=norm_factor
     return (pQn_idx,Qp_out) if hasbar else Qp_out
 
 if __name__ == "__main__":
@@ -93,7 +101,7 @@ if __name__ == "__main__":
     step_size = list(step_sizes.keys())[0]
     
     with Pool(processes=cpu_count()) as pool:
-        index_vector = np.array(list(range(len(p)))).astype(int)
+        index_vector = list(range(len(p)))
         if hasbar:
             unordered_res =  list(tqdm.tqdm(pool.imap_unordered(Qp_reduced, index_vector), total=len(Qp)))
             for idx,val in unordered_res:
@@ -102,7 +110,7 @@ if __name__ == "__main__":
             res = pool.map_async(Qp_reduced,index_vector)
             Qp = np.array(res.get())
         
-    ofname = "conv_" + basename(argv[1])
+    ofname = "conv_N" + basename(argv[1]) +".txt"
     oarray = np.array([p,Qn,Qnstd,Qp])
     np.savetxt(ofname,oarray)
    
