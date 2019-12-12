@@ -3,7 +3,8 @@ New algorithm to calculate the percolation correlation length of a lattice or sp
 It is a growing algorithm based on disjoint sets that uses the parallel axis theorem to track the correlation length as nodes/links are added.
 
 If you use the algorithm, please cite the arXiv:  
-Faster calculation of the percolation correlation length on spatial networks 
+
+Faster calculation of the percolation correlation length on spatial networks  
 Michael M. Danziger, Bnaya Gross, Sergey V. Buldyrev  
 https://arxiv.org/abs/1902.03708
 
